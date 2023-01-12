@@ -39,20 +39,20 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    LT.whileTrue(new InstantCommand(Climb::arm_in, Climb));
-    RT.whileTrue(new InstantCommand(Climb::arm_out, Climb));
-    LT.whileFalse(new InstantCommand(Climb::arm_stop, Climb));
-    RT.whileFalse(new InstantCommand(Climb::arm_stop, Climb));
+    LT.onTrue(new InstantCommand(Climb::arm_in, Climb));
+    RT.onTrue(new InstantCommand(Climb::arm_out, Climb));
+    LT.onFalse(new InstantCommand(Climb::arm_stop, Climb));
+    RT.onFalse(new InstantCommand(Climb::arm_stop, Climb));
 
-    LT.whileTrue(new InstantCommand(Climb::winch_in, Climb));
-    RT.whileTrue(new InstantCommand(Climb::winch_out, Climb));
-    LT.whileFalse(new InstantCommand(Climb::winch_stop, Climb));
-    RT.whileFalse(new InstantCommand(Climb::winch_stop, Climb));
+    LT.onTrue(new InstantCommand(Climb::winch_in, Climb));
+    RT.onTrue(new InstantCommand(Climb::winch_out, Climb));
+    LT.onFalse(new InstantCommand(Climb::winch_stop, Climb));
+    RT.onFalse(new InstantCommand(Climb::winch_stop, Climb));
 
-    A.whileTrue(new InstantCommand(Claws::claw_in, Claws));
-    A.whileFalse(new InstantCommand(Claws::claw_stop, Claws));
-    B.whileTrue(new InstantCommand(Claws::claw_out, Claws));
-    B.whileFalse(new InstantCommand(Claws::claw_stop, Claws));
+    A.onTrue(new InstantCommand(Claws::claw_in, Claws));
+    A.onFalse(new InstantCommand(Claws::claw_stop, Claws));
+    B.onTrue(new InstantCommand(Claws::claw_out, Claws));
+    B.onFalse(new InstantCommand(Claws::claw_stop, Claws));
 
   }
 
