@@ -1,18 +1,21 @@
 package frc.robot.Libs;
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 
 public class AnshulPlanner {
     double a, b, c;
     double max, min;
-    Pose2d CurrentPose;
+    Supplier<Pose2d> CurrentPose;
     PIDController angPID, distPID;
     Timer timer = new Timer();
 
-    public AnshulPlanner(double a, double b, double c, Pose2d CurrentPose) {
+    public AnshulPlanner(double a, double b, double c, Supplier<Pose2d> CurrentPose) {
         this.a = a;
         this.b = b;
         this.c = c;
@@ -32,13 +35,13 @@ public class AnshulPlanner {
     public Transform2d T2D() {
         double targetx = timer.get() + min + 0.02;
         Pose2d target = new Pose2d(targetx, a * targetx * targetx + b * targetx + c, new Rotation2d(2*a*targetx + b));
-        return new Transform2d(CurrentPose, target);
+        return new Transform2d(CurrentPose.get(), target);
     }
 
     public Transform2d reverseT2D() {
         double targetx = -timer.get() + max - 0.02;
         Pose2d target = new Pose2d(targetx, a * targetx * targetx + b * targetx + c, new Rotation2d(2*a*targetx + b));
-        return new Transform2d(CurrentPose, target);
+        return new Transform2d(CurrentPose.get(), target);
     }
 
     private double[] rawCalculate() {
@@ -46,7 +49,7 @@ public class AnshulPlanner {
         Transform2d T2D = T2D();
         double angle = T2D.getRotation().getDegrees();
         double distance = T2D.getTranslation().getNorm();
-        double angPIDOutput = angPID.calculate(CurrentPose.getRotation().getDegrees(), angle);
+        double angPIDOutput = angPID.calculate(CurrentPose.get().getRotation().getDegrees(), angle);
         double distPIDOutput = distPID.calculate(distance, 0);
         output[0] = angPIDOutput;
         output[1] = distPIDOutput;
@@ -58,7 +61,7 @@ public class AnshulPlanner {
         Transform2d T2D = reverseT2D();
         double angle = T2D.getRotation().getDegrees();
         double distance = T2D.getTranslation().getNorm();
-        double angPIDOutput = angPID.calculate(CurrentPose.getRotation().getDegrees(), angle);
+        double angPIDOutput = angPID.calculate(CurrentPose.get().getRotation().getDegrees(), angle);
         double distPIDOutput = distPID.calculate(distance, 0);
         output[0] = angPIDOutput;
         output[1] = distPIDOutput;
@@ -67,7 +70,7 @@ public class AnshulPlanner {
 
     public double[] calculate() {
         double[] noOutput = {0,0};
-        while(CurrentPose.getX() < max) {
+        while(CurrentPose.get().getX() < max) {
             double[] output = rawCalculate();
             return output;
         }
@@ -76,7 +79,7 @@ public class AnshulPlanner {
 
     public double[] reverseCalculate() {
         double[] noOutput = {0,0};
-        while(CurrentPose.getX() > min) {
+        while(CurrentPose.get().getX() > min) {
             double[] output = rawReverseCalculate();
             return output;
         }
@@ -87,5 +90,4 @@ public class AnshulPlanner {
         this.max = max;
         this.min = min;
     }
-
 }
