@@ -15,11 +15,21 @@ public class AnshulPlanner {
     PIDController angPID, distPID;
     Timer timer = new Timer();
 
-    public AnshulPlanner(double a, double b, double c, Supplier<Pose2d> CurrentPose) {
+    public AnshulPlanner(double a, double b, double c, Supplier<Pose2d> CurrentPose, PIDController angPID, PIDController distPID, double max, double min) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.CurrentPose = CurrentPose;
+        this.angPID = angPID;
+        this.distPID = distPID;
+        this.max = max;
+        this.min = min;
+    }
+
+    public void setABC(double a, double b, double c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
     }
 
     public void setPID( PIDController angPID, PIDController distPID) {
