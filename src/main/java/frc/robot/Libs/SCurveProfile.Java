@@ -46,7 +46,7 @@ public class SCurveProfile {
         return m_val + m_currentPos;
     }
 
-    public double calculate(double x, double error) {
+    public double calculate(double x) {
         return position(0, x, 0.02);
     }
 
@@ -71,6 +71,4 @@ public class SCurveProfile {
         m_end_time = mid;
         return mid;
     }
-
-
 }
