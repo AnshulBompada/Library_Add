@@ -18,8 +18,8 @@ public class SCurveProfile {
     private double m_currentPos;
 
     public SCurveProfile(double maxAcceleration, double maxVelocity) {
-        maxVelocity = m_maxVelocity;
-        maxAcceleration = m_maxAcceleration;
+        m_maxAcceleration = maxAcceleration;
+        m_maxVelocity = maxVelocity;
     }
 
     public void reset(double position) {
