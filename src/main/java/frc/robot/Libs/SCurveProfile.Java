@@ -8,6 +8,7 @@ package frc.robot.Libs;
  * this position every single iteration of the timed loop. Before doing this you have to set the goal of the profile,
  * and run the loop while it is less than the total time of the profile. You have to set goal before you start the loop.
  * Warning: This class is not tested and may not work.
+ * Profile generator: https://www.desmos.com/calculator/4qjxqjzq2j
 */
 
 public class SCurveProfile {
@@ -52,6 +53,10 @@ public class SCurveProfile {
 
     public void setGoal(double goal) {
         m_end_time = totaltime(goal);
+    }
+
+    public double getEndTime() {
+        return m_end_time;
     }
 
     public double totaltime(double goal) {

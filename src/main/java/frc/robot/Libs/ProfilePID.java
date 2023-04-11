@@ -3,6 +3,7 @@ package frc.robot.Libs;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 
+
 public class ProfilePID {
     private PIDController mPID;
     private SCurveProfile mprofile;
@@ -31,8 +32,11 @@ public class ProfilePID {
         mTimer.start();
     }
 
-    public double calculate(double position) {
+    public double calculate(double position, double goal) {
         double time = mTimer.get();
+        if(time > mprofile.getEndTime()) {
+            return 0;
+        }
         double profile = mprofile.calculate(time);
         double output = mPID.calculate(position, profile);
         return output;
